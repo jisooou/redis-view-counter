@@ -1,7 +1,7 @@
 package com.counter.redis_view_counter.place.controller;
 
-import com.counter.redis_view_counter.place.dto.PlaceCreateRequest;
-import com.counter.redis_view_counter.place.dto.PlaceResponse;
+import com.counter.redis_view_counter.place.dto.PlaceCreateRequestDto;
+import com.counter.redis_view_counter.place.dto.PlaceResponseDto;
 import com.counter.redis_view_counter.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +13,12 @@ public class PlaceController {
     private final PlaceService placeService;
 
     @PostMapping
-    public PlaceResponse createPlace(@RequestBody PlaceCreateRequest request){
+    public PlaceResponseDto createPlace(@RequestBody PlaceCreateRequestDto request){
         return placeService.createPlace(request);
     }
 
     @GetMapping("/{id}")
-    public PlaceResponse getPlace(@PathVariable Long id){
+    public PlaceResponseDto getPlace(@PathVariable Long id){
         return placeService.getPlace(id);
     }
 

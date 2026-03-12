@@ -1,7 +1,7 @@
 package com.counter.redis_view_counter.place.service;
 
-import com.counter.redis_view_counter.place.dto.PlaceCreateRequest;
-import com.counter.redis_view_counter.place.dto.PlaceResponse;
+import com.counter.redis_view_counter.place.dto.PlaceCreateRequestDto;
+import com.counter.redis_view_counter.place.dto.PlaceResponseDto;
 import com.counter.redis_view_counter.place.entity.Place;
 import com.counter.redis_view_counter.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,20 +14,20 @@ public class PlaceService {
     private final PlaceRepository placeRepository;
 
     @Transactional
-    public PlaceResponse createPlace(PlaceCreateRequest request){
+    public PlaceResponseDto createPlace(PlaceCreateRequestDto request){
         Place place = Place.builder()
                 .name(request.getName())
                 .viewCount(0L)
                 .build();
         Place savePlace = placeRepository.save(place);
-        return PlaceResponse.from(savePlace);
+        return PlaceResponseDto.from(savePlace);
     }
 
     @Transactional(readOnly = true)
-    public PlaceResponse getPlace(Long id){
+    public PlaceResponseDto getPlace(Long id){
         Place place = placeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 장소가 없습니다. id = " + id));
-        return PlaceResponse.from(place);
+        return PlaceResponseDto.from(place);
     }
 
     @Transactional
