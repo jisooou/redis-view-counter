@@ -11,11 +11,21 @@ public class PlaceResponse {
     private String name;
     private Long viewCount;
 
-    public static PlaceResponse from(Place place){
+    //    DB용
+    public static PlaceResponse from(Place place) {
         return PlaceResponse.builder()
                 .id(place.getId())
                 .name(place.getName())
                 .viewCount(place.getViewCount())
+                .build();
+    }
+
+    //    Redis용: DB에 저장하지 않기 때문에 별도로 만들어 준다.
+    public static PlaceResponse from(Place place, Long viewCount) {
+        return PlaceResponse.builder()
+                .id(place.getId())
+                .name(place.getName())
+                .viewCount(viewCount)
                 .build();
     }
 }
