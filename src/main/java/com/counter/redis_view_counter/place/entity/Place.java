@@ -20,6 +20,7 @@ public class Place {
     @Column(nullable = false)
     private Long viewCount;
 
+//    Redis를 사용하면 일단 사용하지 않는 메서드
     public void increaseViewCount(){
         this.viewCount += 1;
     }
