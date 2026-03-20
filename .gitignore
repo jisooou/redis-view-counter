@@ -38,3 +38,6 @@ out/
 
 # Spring config
 src/main/resources/application*.yml
+
+# k6 부하테스트 results
+results/
