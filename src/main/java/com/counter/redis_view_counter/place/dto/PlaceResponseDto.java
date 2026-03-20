@@ -18,4 +18,13 @@ public class PlaceResponseDto {
                 .viewCount(viewCount)
                 .build();
     }
+
+//    DB용 : 장소 생성
+    public static PlaceResponseDto from(Place place) {
+        return PlaceResponseDto.builder()
+                .id(place.getId())
+                .name(place.getName())
+                .viewCount(place.getViewCount())
+                .build();
+    }
 }
