@@ -42,9 +42,6 @@ public class PlaceService {
 
     @Transactional(readOnly = true)
     public void increaseViewCount(Long id) {
-        if (!placeRepository.existsById(id)) {
-            throw new IllegalArgumentException("해당 장소가 없습니다. id = " + id);
-        }
         String key = generateViewKey(id);
         redisTemplate.opsForValue().increment(key);
     }
