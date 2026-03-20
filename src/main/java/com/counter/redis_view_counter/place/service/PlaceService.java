@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PlaceService {
     private final PlaceRepository placeRepository;
-    private final StringRedisTemplate redisTemplate;
 
     @Transactional
     public PlaceResponseDto createPlace(PlaceCreateRequestDto request) {
@@ -29,38 +28,13 @@ public class PlaceService {
     public PlaceResponseDto getPlace(Long id) {
         Place place = placeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 장소가 없습니다. id = " + id));
-//         Redis용
-        String key = generateViewKey(id);
-        String redisValue = redisTemplate.opsForValue().get(key);
-
-        long totalViewCount = place.getViewCount();
-
-        if(redisValue != null){
-            totalViewCount += Long.parseLong(redisValue);
-        }
-        return PlaceResponseDto.from(place, totalViewCount);
-
-//         DB용
-//        return PlaceResponseDto.from(place);
+        return PlaceResponseDto.from(place);
     }
 
     @Transactional(readOnly = true)
     public void increaseViewCount(Long id) {
-//        DB용
-//        Place place = placeRepository.findById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 장소가 없습니다. id = " + id));
-//        place.increaseViewCount();
-
-//        Redis용
-        if (!placeRepository.existsById(id)){
-            throw new IllegalArgumentException("해당 장소가 없습니다. id = " + id);
-        }
-        String key = generateViewKey(id);
-        redisTemplate.opsForValue().increment(key);
-    }
-
-    //    Redis용
-    private String generateViewKey(Long placeId) {
-        return "place:view:" + placeId;
+        Place place = placeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 장소가 없습니다. id = " + id));
+        place.increaseViewCount();
     }
 }
